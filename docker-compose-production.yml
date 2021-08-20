@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+    veion_client:
+        image: repo.treescale.com/veionteam/orderzz-client:1.0
+        volumes:
+            - ./client/proxy/nginx.conf:/etc/nginx/conf.d/default.conf
+            - /etc/letsencrypt/live/orderzz.com/fullchain.pem:/certs/fullchain.pem
+            - /etc/letsencrypt/live/orderzz.com/privkey.pem:/certs/privkey.pem
+        env_file:
+            - ./client/.env
+        networks:
+            - server_load_balancer
+
+networks:
+    server_load_balancer:
+        external: true
